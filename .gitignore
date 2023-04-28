@@ -73,4 +73,5 @@ venv/
 .vs
 
 # Telegram token
-.token
+.token*
+.chatid*

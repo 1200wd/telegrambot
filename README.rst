@@ -7,7 +7,8 @@ Get started
 -----------
 
 * Create a bot with Botfather with the command /newbot
-* Copy the API key and place it in .token in this telegrambot directory
+* Copy the API key and place it in .token in the main telegrambot directory
+* Send a message to the chat or put the Chat ID in the .chatid file in the main telegrambot directory
 
 Send messages
 -------------
