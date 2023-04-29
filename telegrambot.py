@@ -28,7 +28,7 @@ class TelegramBot(object):
             raise ValueError('Chat ID not found, please provide a Chat ID or send a message to the chat')
         chatid = resp['result'][0]['message']['chat']['id']
         try:
-            open('.chatid', 'w').write(str(chatid))
+            open('.tbot-chatid', 'w').write(str(chatid))
         except Exception:
             pass
         return chatid
