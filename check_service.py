@@ -19,7 +19,7 @@ debug = True
 
 # Monitor and send message
 def check_service(service_name):
-    service_status = 0 if os.system('systemctl is-active --quiet %s' % service_name) == 0 else 1
+    service_status = 1 if os.system('systemctl is-active --quiet %s' % service_name) == 0 else 0
 
     monitor_filename = '.tbot-service-%s' % service_name
     status_last = file_get_status(monitor_filename)
