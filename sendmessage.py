@@ -1,6 +1,10 @@
 #!/usr/bin/python
 
 # Example send message using Telegram bot
+#
+# Call from commandline with
+# $ python sendmessage.py 'Hello world!'
+#
 
 import sys
 from telegrambot import TelegramBot
