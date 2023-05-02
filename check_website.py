@@ -20,11 +20,18 @@ debug = True
 
 # Monitor and send message
 def check_website(website_url, search_word):
-    res = requests.get(website_url, timeout=timeout)
-    if not 200 <= res.status_code < 400:
+    try:
+        res = requests.get(website_url, timeout=timeout)
+    except Exception as e:
+        if debug:
+            print("Error connecting to site %s: %s" % (website_url, str(e)))
         word_found = False
     else:
-        word_found = search_word in res.text
+        if not 200 <= res.status_code < 400:
+            word_found = False
+        else:
+            word_found = search_word in res.text
+
     website_domain = website_url.split('?')[0]
 
     monitor_filename = '.tbot-check-website-' + \
