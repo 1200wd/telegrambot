@@ -25,9 +25,10 @@ def check_website(website_url, search_word):
         word_found = False
     else:
         word_found = search_word in res.text
+    website_domain = website_url.split('?')[0]
 
     monitor_filename = '.tbot-check-website-' + \
-                       website_url.replace('/', '').replace('\\', '').replace(':', '').replace('.', '')
+                       website_domain.replace('/', '').replace('\\', '').replace(':', '').replace('.', '')
     status_last = file_get_status(monitor_filename)
 
     if debug:
@@ -35,10 +36,10 @@ def check_website(website_url, search_word):
         print("Word %s found on website %s: %s" % (website_url, search_word, word_found))
 
     if not word_found and status_last:
-        sendmessage(message_str_offline % (website_url))
+        sendmessage(message_str_offline % website_domain)
         file_write_status(monitor_filename, 0)
     elif word_found and not status_last:
-        sendmessage(message_str_online % website_url)
+        sendmessage(message_str_online % website_domain)
         file_write_status(monitor_filename, 1)
 
 
