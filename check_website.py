@@ -12,6 +12,7 @@ from helpers import file_get_status, file_write_status
 
 
 # Settings
+timeout = 10  # seconds
 message_str_offline = "Oh no, website %s seems offline"
 message_str_online = "Yes, website %s is online again!"
 debug = True
@@ -19,7 +20,7 @@ debug = True
 
 # Monitor and send message
 def check_website(website_url, search_word):
-    res = requests.get(website_url)
+    res = requests.get(website_url, timeout=timeout)
     if not 200 <= res.status_code < 400:
         word_found = False
     else:
