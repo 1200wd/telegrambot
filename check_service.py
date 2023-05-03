@@ -15,6 +15,7 @@ timeout = 10  # seconds
 message_str_offline = "Oh no, service %s is down"
 message_str_online = "Yes, service %s is running again!"
 debug = True
+hostname = os.uname()[1]
 
 
 # Monitor and send message
@@ -29,10 +30,10 @@ def check_service(service_name):
         print("Current status: %s" % service_status)
 
     if not service_status and status_last:
-        sendmessage(message_str_offline % service_name)
+        sendmessage(message_str_offline % service_name + ' (%s)' % hostname)
         file_write_status(monitor_filename, 0)
     elif service_status and not status_last:
-        sendmessage(message_str_online % service_name)
+        sendmessage(message_str_online % service_name + ' (%s)' % hostname)
         file_write_status(monitor_filename, 1)
 
 
