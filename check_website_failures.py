@@ -41,19 +41,19 @@ def check_website(website_url, search_word):
                        website_domain.replace('/', '').replace('\\', '').replace(':', '').replace('.', '')
     failure_count = file_get_count(monitor_filename)
     if not word_found:
-        failure_count += 1
+        new_failure_count = failure_count + 1
     else:
-        failure_count = 0
+        new_failure_count = 0
 
     if debug:
         print("Failure count: %d" % failure_count)
-        print("Word %s found on website %s: %s" % (website_url, search_word, word_found))
+        print("Word %s found on website %s: %s" % (search_word, website_url, word_found))
 
-    if failure_count == max_failures:
+    if new_failure_count == max_failures:
         sendmessage(message_str_offline % website_domain)
-    elif failure_count > max_failures and failure_count % reminder_interval == 0:
-        sendmessage(message_str_offline_reminder % (website_domain, failure_count))
-    elif failure_count < max_failures:
+    elif new_failure_count > max_failures and new_failure_count % reminder_interval == 0:
+        sendmessage(message_str_offline_reminder % (website_domain, new_failure_count))
+    elif failure_count >= max_failures and not new_failure_count:
         sendmessage(message_str_online % website_domain)
     file_write_count(monitor_filename, failure_count)
 
