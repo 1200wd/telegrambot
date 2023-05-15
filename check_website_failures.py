@@ -55,7 +55,7 @@ def check_website(website_url, search_word):
         sendmessage(message_str_offline_reminder % (website_domain, new_failure_count))
     elif failure_count >= max_failures and not new_failure_count:
         sendmessage(message_str_online % website_domain)
-    file_write_count(monitor_filename, failure_count)
+    file_write_count(monitor_filename, new_failure_count)
 
 
 if __name__ == "__main__":
