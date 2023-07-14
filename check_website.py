@@ -35,7 +35,7 @@ def check_website(website_url, search_word):
     website_domain = website_url.split('?')[0]
 
     monitor_filename = '.tbot-check-website-' + \
-                       website_domain.replace('/', '').replace('\\', '').replace(':', '').replace('.', '')
+                       website_domain.replace('/', '_').replace('\\', '').replace(':', '').replace('.', '_')
     status_last = file_get_status(monitor_filename)
 
     if debug:

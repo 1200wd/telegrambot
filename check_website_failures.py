@@ -38,7 +38,7 @@ def check_website(website_url, search_word):
     website_domain = website_url.split('?')[0]
 
     monitor_filename = '.tbot-check-website-failures' + \
-                       website_domain.replace('/', '').replace('\\', '').replace(':', '').replace('.', '')
+                       website_domain.replace('/', '_').replace('\\', '').replace(':', '').replace('.', '_')
     failure_count = file_get_count(monitor_filename)
     if not word_found:
         new_failure_count = failure_count + 1
