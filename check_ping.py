@@ -1,5 +1,4 @@
-# Check if website is online
-# Open website and check for specific word
+# Check if server is online
 #
 # Call from commandline with
 # $ python check_website.py '<url>' '<expected_word>'
