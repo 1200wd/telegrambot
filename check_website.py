@@ -42,7 +42,7 @@ def check_website(website_url, search_word):
 
     if debug:
         print("Last status: %s" % ('Online' if status_last else 'Offline'))
-        print("Word %s found on website %s: %s" % (website_url, search_word, word_found))
+        print("Word %s found on website %s: %s" % (search_word, website_url, word_found))
 
     if not word_found and status_last:
         sendmessage(message_str_offline % website_domain)
