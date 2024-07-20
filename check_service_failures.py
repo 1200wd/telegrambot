@@ -1,3 +1,5 @@
+# Telegram Bot - Server and website monitoring
+#
 # Check if systemctl service is running
 #
 # Call from commandline with

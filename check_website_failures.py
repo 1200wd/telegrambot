@@ -1,3 +1,5 @@
+# Telegram Bot - Server and website monitoring
+#
 # Check if website is online
 # Open website and check for specific word
 #

@@ -1,3 +1,5 @@
+# Telegram Bot - Server and website monitoring
+#
 # Check if server is online
 #
 # Call from commandline with
