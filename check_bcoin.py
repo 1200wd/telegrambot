@@ -9,6 +9,7 @@
 
 import sys
 import requests
+from hashlib import sha256
 from sendmessage import sendmessage
 from helpers import file_get_status, file_write_status
 from bitcoinlib.services.bcoin import BcoinClient
@@ -32,7 +33,7 @@ def check_bcoin(bcoin_url, get_blockcount=False):
     except Exception as e:
         if debug:
             print("Error connecting to Bcoin: %s" % str(e))
-    monitor_filename = '.tbot-check-bcoin'
+    monitor_filename = '.tbot-check-bcoin-' + sha256(bytes(bcoin_url,'utf8')).hexdigest()
     bcoin_server = bcoin_url.split('@')[-1].split(':')[0]
     status_last = file_get_status(monitor_filename)
 

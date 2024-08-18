@@ -6,7 +6,7 @@
 def file_get_status(monitor_filename):
     try:
         return bool(int(open(monitor_filename, 'r').readline().strip()))
-    except Exception:
+    except FileNotFoundError:
         pass
     return 1
 
