@@ -9,6 +9,7 @@
 
 import sys
 import requests
+from hashlib import sha256
 from sendmessage import sendmessage
 from helpers import file_get_status, file_write_status
 from bitcoinlib.services.bitcoind import BitcoindClient
@@ -32,7 +33,7 @@ def check_bitcoind(bitcoind_url, get_blockcount=False):
     except Exception as e:
         if debug:
             print("Error connecting to bitcoind: %s" % str(e))
-    monitor_filename = '.tbot-check-bitcoind'
+    monitor_filename = '.tbot-check-bitcoind-' + sha256(bytes(bitcoind_url,'utf8')).hexdigest()
     bitcoind_server = bitcoind_url.split('@')[-1].split(':')[0]
     status_last = file_get_status(monitor_filename)
 
