@@ -1,9 +1,15 @@
-Telegram Bot - Server and website monitoring
-============================================
+Telegram Bot - Monitor service
+==============================
 
-Monitoring scripts to check websites and services, look for file changes, check backups and detect IP address changes.
+Monitoring scripts to check for various events:
+* Check new bitcoin transactions for a wallet or address
+* Check website status
+* Monitor file changes
+* Check IP address changes
+* Monitor if specific services are running on an instance, such as a Bitcoin node
 
-Sends Telegram messages with a bot and the telegram API.
+Sends Telegram messages with a bot and the Telegram API.
+
 
 Get started
 -----------
@@ -12,18 +18,40 @@ Get started
 * Copy the API key and place it in .token in the main telegrambot directory
 * Send a message to the chat or put the Chat ID in the .chatid file in the main telegrambot directory
 
+
 Send messages
 -------------
 
+If everything has been setup correctly you can send messages to Telegram
 .. code-block:: bash
 
     $ python sendmessage.py 'Hello world!'
 
 
+Monitor Bitcoin Wallet
+----------------------
+
+Check a Bitcoin wallet for changes, so new outgoing or incoming transactions.
+
+.. code-block:: bash
+
+    $ python check_bitcoin_wallet.py '<public_masterkey>' '[<network>]' '[<wallet_name>]'
+
+
+Monitor Bitcoin Address
+-----------------------
+
+Check a specific bitcoin address for new transactions.
+
+.. code-block:: bash
+
+    $ python check_bitcoin_address.py '<address>' '[<network>]' '[<address_name>]'
+
+
 Monitor Website
 ---------------
 
-Check if specifc word is found on website.
+Check if specific word is found on website, to check if website is running correctly.
 
 .. code-block:: bash
 

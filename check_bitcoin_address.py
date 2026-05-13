@@ -30,6 +30,8 @@ def check_address(address, network):
         txs = srv.gettransactions(address)
         if txs:
             latest_txid = txs[-1].txid
+        if debug:
+            print("Address: %s, network: %s, tx count: %s" % (address, srv.network.name, len(txs)))
     except Exception as e:
         if debug:
             print("Error retrieving transactions from server: %s" % str(e))

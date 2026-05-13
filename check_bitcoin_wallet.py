@@ -9,7 +9,7 @@
 
 import sys
 import requests
-from bitcoinlib.wallets import wallet_create_or_open
+from bitcoinlib.wallets import wallet_create_or_open, wallet_delete_if_exists
 
 from sendmessage import sendmessage
 from helpers import file_get_status_str, file_write_status
@@ -19,17 +19,19 @@ from bitcoinlib.keys import Address
 
 # Settings
 timeout = 10  # seconds
-message_str_add_watch = "Start monitoring new transactions for wallet with public masterkey %s"
+message_str_add_watch = "Start monitoring new transactions for wallet %s with public masterkey %s"
 message_str_new_tx_found = "New transactions for wallet %s with txid %s"
 debug = True
 
 
 # Monitor and send message
-def check_wallet(public_masterkey):
+def check_wallet(public_masterkey, network, wallet_name):
     latest_txid = None
     try:
-        w = wallet_create_or_open(public_masterkey, public_masterkey)
-        w.scan(rescan_used=True)
+        w = wallet_create_or_open(wallet_name, public_masterkey, network=network)
+        w.scan(scan_gap_limit=3)
+        # w.scan(rescan_used=True, scan_gap_limit=3)
+        w.info()
         txs = w.transactions()
         if txs:
             latest_txid = txs[-1].txid
@@ -40,18 +42,21 @@ def check_wallet(public_masterkey):
     status_last_txid = file_get_status_str(monitor_filename)
 
     if debug:
+        print("Wallet: %s, Network: %s" % (wallet_name, w.network.name))
         print("Lastest recorded txid / found txid: %s / %s" %
               (status_last_txid if status_last_txid else 'None', latest_txid if latest_txid else 'None'))
 
     status_last_txid = None if not status_last_txid else status_last_txid
     if status_last_txid != latest_txid:
         if not latest_txid:
-            sendmessage(message_str_add_watch % public_masterkey)
+            sendmessage(message_str_add_watch % (wallet_name, public_masterkey))
         else:
-            sendmessage(message_str_new_tx_found % (public_masterkey, latest_txid))
+            sendmessage(message_str_new_tx_found % (wallet_name, latest_txid))
         file_write_status(monitor_filename, "" if not latest_txid else latest_txid)
 
 
 if __name__ == "__main__":
     public_masterkey = sys.argv[1]
-    check_wallet(public_masterkey)
+    network = sys.argv[2] if len(sys.argv) > 2 else None
+    wallet_name = sys.argv[3] if len(sys.argv) > 3 else public_masterkey
+    check_wallet(public_masterkey, network, wallet_name)
