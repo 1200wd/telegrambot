@@ -41,7 +41,9 @@ class TelegramBot(object):
             self.chatid = self.getchatid()
         variables = {
             'chat_id': self.chatid,
-            'text': message
+            'text': message,
+            'parse_mode': 'HTML',
+            'disable_web_page_preview': True
         }
         resp = self.request('sendMessage', variables)
         return resp
