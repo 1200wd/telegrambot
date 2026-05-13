@@ -17,13 +17,13 @@ from bitcoinlib.keys import Address
 
 # Settings
 timeout = 10  # seconds
-message_str_add_watch = "Start monitoring new transactions for address %s"
+message_str_add_watch = "Start monitoring new transactions for address %s (%s)"
 message_str_new_tx_found = "New transactions for address %s with txid %s"
 debug = True
 
 
 # Monitor and send message
-def check_address(address, network):
+def check_address(address, network, address_name):
     latest_txid = None
     srv = Service(network=network, timeout=timeout)
     try:
@@ -31,7 +31,7 @@ def check_address(address, network):
         if txs:
             latest_txid = txs[-1].txid
         if debug:
-            print("Address: %s, network: %s, tx count: %s" % (address, srv.network.name, len(txs)))
+            print("Address: %s, network: %s, tx count: %s" % (address_name, srv.network.name, len(txs)))
     except Exception as e:
         if debug:
             print("Error retrieving transactions from server: %s" % str(e))
@@ -45,9 +45,9 @@ def check_address(address, network):
     status_last_txid = None if not status_last_txid else status_last_txid
     if status_last_txid != latest_txid:
         if not latest_txid:
-            sendmessage(message_str_add_watch % address)
+            sendmessage(message_str_add_watch % (address_name, address))
         else:
-            sendmessage(message_str_new_tx_found % (address, latest_txid))
+            sendmessage(message_str_new_tx_found % (address_name, latest_txid))
         file_write_status(monitor_filename, "" if not latest_txid else latest_txid)
 
 
@@ -55,4 +55,5 @@ if __name__ == "__main__":
     address = sys.argv[1]
     addr_obj = Address.parse(address)
     network = addr_obj.network.name
-    check_address(address, network)
+    address_name = sys.argv[3] if len(sys.argv) > 3 else address
+    check_address(address, network, address_name)

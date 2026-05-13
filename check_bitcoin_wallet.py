@@ -27,17 +27,19 @@ debug = True
 # Monitor and send message
 def check_wallet(public_masterkey, network, wallet_name):
     latest_txid = None
+    w = wallet_create_or_open(wallet_name, public_masterkey, network=network)
     try:
-        w = wallet_create_or_open(wallet_name, public_masterkey, network=network)
-        w.scan(scan_gap_limit=3)
-        # w.scan(rescan_used=True, scan_gap_limit=3)
-        w.info()
-        txs = w.transactions()
-        if txs:
-            latest_txid = txs[-1].txid
-    except Exception as e:
-        if debug:
-            print("Error retrieving transactions from server: %s" % str(e))
+        w.scan(rescan_used=True, scan_gap_limit=3)
+    except AttributeError as e:   # Avoids error in bitcoinlib <= 0.7.8
+        try:
+            w.scan(scan_gap_limit=3)
+        except Exception as e:
+            if debug:
+                print("Error retrieving transactions from server: %s" % str(e))
+
+    txs = w.transactions()
+    if txs:
+        latest_txid = txs[-1].txid
     monitor_filename = '.tbot-check-wallet-%s' % public_masterkey
     status_last_txid = file_get_status_str(monitor_filename)
 
