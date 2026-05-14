@@ -28,7 +28,7 @@ debug = True
 # Monitor and send message
 def check_wallet(public_masterkey, network, wallet_name):
     latest_txid = None
-    w = wallet_create_or_open(wallet_name, public_masterkey, network=network)
+    w = wallet_create_or_open(wallet_name, public_masterkey, network=network, db_cache_uri='')
     try:
         w.scan(rescan_used=True, scan_gap_limit=3)
     except AttributeError as e:   # Avoids error in bitcoinlib <= 0.7.8

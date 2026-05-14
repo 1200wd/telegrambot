@@ -26,7 +26,7 @@ debug = True
 # Monitor and send message
 def check_address(address, network, address_name):
     latest_txid = None
-    srv = Service(network=network, timeout=timeout)
+    srv = Service(network=network, timeout=timeout, cache_uri='')
     try:
         txs = srv.gettransactions(address)
         if txs:
