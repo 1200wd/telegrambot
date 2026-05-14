@@ -20,7 +20,8 @@ from bitcoinlib.keys import Address
 # Settings
 timeout = 10  # seconds
 message_str_add_watch = "Start monitoring new transactions for wallet %s with public masterkey %s"
-message_str_new_tx_found = "New transactions for wallet %s with txid %s"
+message_str_new_tx_found = ("New transactions for wallet %s with txid "
+                            "<a href='https://blocksmurfer.io/tbtc/transaction/%s'>%s</a>")
 debug = True
 
 
@@ -53,7 +54,7 @@ def check_wallet(public_masterkey, network, wallet_name):
         if not latest_txid:
             sendmessage(message_str_add_watch % (wallet_name, public_masterkey))
         else:
-            sendmessage(message_str_new_tx_found % (wallet_name, latest_txid))
+            sendmessage(message_str_new_tx_found % (wallet_name, latest_txid, latest_txid))
         file_write_status(monitor_filename, "" if not latest_txid else latest_txid)
 
 
